@@ -4,7 +4,7 @@ You will create a Weather application, create the following components:
 * `App`: The main component that wraps the entire application with the WeatherContext provider.
 * `WeatherContext`: The context that manages the state and provides functions to fetch and store weather data. Use a Context Provider to wrap the main application in App. Implement state management in WeatherContext using the useState hook to handle the weather data state.
 * `WeatherSearch`: Contains the form to search for weather information based on the city name. The input should be a controlled component. Ensure the input value is managed by React state and is reset after fetching the weather data. Use a form with an input field and a submit button to trigger the search.
-* `WeatherDisplay`: Displays the current weather information fetched from the API (Temperature, Humudity, and Description). This component will consume the context to get the weather data and render each WeatherItem.
+* `WeatherDisplay`: Displays the current weather information fetched from the API (City name, Temperature, Humudity, and Description). This component will consume the context to get the weather data and render each WeatherItem.
 
 ### Notes:
 * Sign up at [OpenWeatherMap](https://openweathermap.org/) to get a free API key.
