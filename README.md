@@ -10,7 +10,7 @@ You will create a Weather application, create the following components:
 * Sign up at [OpenWeatherMap](https://openweathermap.org/) to get a free API key.
 * Once your account is active, you should receive weather information via the following API:
 `https://api.openweathermap.org/data/2.5/weather?units=imperial&q=CITY&appid=YOUR_API_KEY`
-* Replace `CITY` and `YOUR_API_KEY` with the actual city name and API key.
+* Replace `CITY` and `YOUR_API_KEY` with the actual city name and API key. Make sure you use `.env` file to store your API key and add it to your `.gitignore` file.
 * Find below some helper interfaces:
 ```typescript
 export interface ErrorResponse {
