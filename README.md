@@ -1,9 +1,9 @@
 ## CS472-Homework-10-Communication
 
-### Programming Question 1
+### Question 1
 Refactor yesterday's homework and useReducer() to manage the application state.
 
-### Programming Question 2
+### Question 2
 You will create a Weather application, create the following components:
 * `App`: The main component that wraps the entire application with the WeatherContext provider.
 * `WeatherContext`: The context that manages the state and provides functions to fetch and store weather data. Use a Context Provider to wrap the main application in App. Implement state management in WeatherContext using the useState hook to handle the weather data state.
