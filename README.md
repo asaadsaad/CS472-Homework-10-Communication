@@ -1,80 +1,69 @@
 ## CS472-Homework-10-Communication
 
-### Question 1
-Refactor yesterday's homework and useReducer() to manage the application state.
+### Book Library Management with React Context and CRUD Operations
+Create a React application that interacts with the provided API to manage a book library. Implement full CRUD (Create, Read, Update, Delete) operations using React Context for state management.
 
-### Question 2
-You will create a Weather application, create the following components:
-* `App`: The main component that wraps the entire application with the WeatherContext provider.
-* `WeatherContext`: The context that manages the state and provides functions to fetch and store weather data. Use a Context Provider to wrap the main application in App. Implement state management in WeatherContext using the useState hook to handle the weather data state.
-* `WeatherSearch`: Contains the form to search for weather information based on the city name. The input should be a controlled component. Ensure the input value is managed by React state and is reset after fetching the weather data. Use a form with an input field and a submit button to trigger the search.
-* `WeatherDisplay`: Displays the current weather information fetched from the API (City name, Temperature, Humudity, and Description). This component will consume the context to get the weather data and render each WeatherItem.
-
-### Notes:
-* Sign up at [OpenWeatherMap](https://openweathermap.org/) to get a free API key.
-* Once your account is active, you should receive weather information via the following API:
-`https://api.openweathermap.org/data/2.5/weather?units=imperial&q=CITY&appid=YOUR_API_KEY`
-* Replace `CITY` and `YOUR_API_KEY` with the actual city name and API key. Make sure you use `.env` file to store your API key and add it to your `.gitignore` file.
-* Find below some helper interfaces:
+You may use the following [mock API service](https://67d17ef590e0670699ba5929.mockapi.io/books) or create your own account. The service provides `/books` endpoint with the following fields
 ```typescript
-export interface ErrorResponse {
-    cod: string;
-    message: string;
-}
-export interface WeatherResponse {
-    coord: Coord;
-    weather: Weather[];
-    base: string;
-    main: Main;
-    visibility: number;
-    wind: Wind;
-    clouds: Clouds;
-    dt: number;
-    sys: Sys;
-    timezone: number;
-    id: number;
-    name: string;
-    cod: number;
-}
-
-export interface Coord {
-    lon: number;
-    lat: number;
-}
-
-export interface Weather {
-    id: number;
-    main: string;
-    description: string;
-    icon: string;
-}
-
-export interface Main {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-    sea_level: number;
-    grnd_level: number;
-}
-
-export interface Wind {
-    speed: number;
-    deg: number;
-}
-
-export interface Clouds {
-    all: number;
-}
-
-export interface Sys {
-    type: number;
-    id: number;
-    country: string;
-    sunrise: number;
-    sunset: number;
+{
+  "id": number,
+  "title": string,
+  "author": string,
 }
 ```
+You will perform all CRUD operations:
+* GET to fetch all books.
+* POST to add a new book.
+* PUT to update an existing book.
+* DELETE to remove a book.
+  
+### React Context Setup
+Create a `BookContext` providing: 
+* The list of books.
+* Functions for adding, updating, and deleting books.
+* Loading and error states for API calls.
 
+### Mount All Components
+* AddBookForm: A controlled form with validation (all fields required). On submission, send a POST request.
+* BookList: Displays all books in a grid or card layout. Each book card should show its details and have Edit and Delete buttons.
+* EditBookForm: When Edit is clicked, pre-fills the book’s current data and sends a PUT request on submission.
+* Use useEffect to fetch initial data when the component mounts.
+
+### Example Context Structure
+```typescript
+// BookContext.tsx
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+interface Book {
+  id: number;
+  title: string;
+  author: string;
+}
+
+interface BookContextType {
+  books: Book[];
+  addBook: (book: Omit<Book, 'id'>) => Promise<void>;
+  updateBook: (id: string, updatedBook: Omit<Book, 'id'>) => Promise<void>;
+  deleteBook: (id: string) => Promise<void>;
+  loading: boolean;
+  error: string | null;
+}
+
+const BookContext = createContext<BookContextType | null>(null);
+
+export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Implement CRUD functions and useEffect here
+
+  return (
+    <BookContext.Provider value={{ books, addBook, updateBook, deleteBook, loading, error }}>
+      {children}
+    </BookContext.Provider>
+  );
+};
+
+export const useBookContext = () => useContext(BookContext)!;
+```
