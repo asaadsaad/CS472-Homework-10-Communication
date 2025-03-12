@@ -8,7 +8,7 @@ You may use the following [mock API service](https://67d17ef590e0670699ba5929.mo
 {
   "id": number,
   "title": string,
-  "author": string,
+  "author": string
 }
 ```
 You will perform all CRUD operations:
