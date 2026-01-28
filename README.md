@@ -7,9 +7,7 @@ In this assignment, you will build a React application that manages a book libra
 ## Application Overview
 Create a React application that interacts with a REST API to manage a list of books. The application must support **Create, Read, Update, and Delete (CRUD)** operations and share state across components using React Context.
 
-You may use the following **mock API service** (or create your own account if needed):
-
-🔗 https://67d17ef590e0670699ba5929.mockapi.io/books
+You may use the following **mock API service**: https://67d17ef590e0670699ba5929.mockapi.io/books
 
 ### API Data Model
 
@@ -22,10 +20,10 @@ You may use the following **mock API service** (or create your own account if ne
 ```
 ### Required CRUD Operations
 Your application must implement the following API interactions:
-* GET: Fetch all books when the application loads.
-* POST: Add a new book.
-* PUT: Update an existing book.
-* DELETE: Remove a book.
+* `GET`: Fetch all books when the application loads.
+* `POST`: Add a new book.
+* `PUT`: Update an existing book.
+* `DELETE`: Remove a book.
 All API calls should be handled inside the Context provider.
   
 ### React Context Setup
@@ -84,9 +82,9 @@ interface Book {
 
 interface BookContextType {
   books: Book[];
-  addBook: (book: Omit<Book, 'id'>) => Promise<void>;
-  updateBook: (id: string, updatedBook: Omit<Book, 'id'>) => Promise<void>;
-  deleteBook: (id: string) => Promise<void>;
+  addBook: (book: Omit<Book, 'id'>) => Promise<Book>;
+  updateBook: (id: string, updatedBook: Omit<Book, 'id'>) => Promise<Book>;
+  deleteBook: (id: string) => Promise<Book>;
   loading: boolean;
   error: string | null;
 }
