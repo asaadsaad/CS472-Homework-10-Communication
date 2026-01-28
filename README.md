@@ -1,33 +1,78 @@
-## CS472-Homework-10-Communication
+## CS472 – Homework 10: Component Communication with React Context
 
-### Book Library Management with React Context and CRUD Operations
-Create a React application that interacts with the provided API to manage a book library. Implement full CRUD (Create, Read, Update, Delete) operations using React Context for state management.
+### Book Library Management using React Context and CRUD Operations
 
-You may use the following [mock API service](https://67d17ef590e0670699ba5929.mockapi.io/books) or create your own account. The service provides `/books` endpoint with the following fields
-```typescript
+In this assignment, you will build a React application that manages a book library using **React Context** for global state management and **CRUD operations** for data persistence. This homework is designed to reinforce the concepts from **Lecture 10: Component Communication**, including parent–child communication, cross-layer communication, `useContext`, controlled forms, and side effects with `useEffect`.
+
+---
+
+## Application Overview
+
+Create a React application that interacts with a REST API to manage a list of books. The application must support **Create, Read, Update, and Delete (CRUD)** operations and share state across components using React Context.
+
+You may use the following **mock API service** (or create your own account if needed):
+
+🔗 https://67d17ef590e0670699ba5929.mockapi.io/books
+
+### API Data Model
+
+```ts
 {
-  "id": number,
-  "title": string,
-  "author": string
+  id: number;
+  title: string;
+  author: string;
 }
 ```
-You will perform all CRUD operations:
-* GET to fetch all books.
-* POST to add a new book.
-* PUT to update an existing book.
-* DELETE to remove a book.
+### Required CRUD Operations
+Your application must implement the following API interactions:
+* GET: Fetch all books when the application loads.
+* POST: Add a new book.
+* PUT: Update an existing book.
+* DELETE: Remove a book.
+All API calls should be handled inside the Context provider.
   
 ### React Context Setup
-Create a `BookContext` providing: 
-* The list of books.
-* Functions for adding, updating, and deleting books.
-* Loading and error states for API calls.
+Create a BookContext that provides global access to:
+* The list of books
+* Functions to: add a book, update a book, delete a book
+* Loading state (for API calls)
+* Error state (for failed requests)
+The context should act as the single source of truth for book data and business logic.
 
-### Mount All Components
-* AddBookForm: A controlled form with validation (all fields required). On submission, send a POST request.
-* BookList: Displays all books in a grid or card layout. Each book card should show its details and have Edit and Delete buttons.
-* EditBookForm: When Edit is clicked, pre-fills the book’s current data and sends a PUT request on submission.
-* Use useEffect to fetch initial data when the component mounts.
+### Component Requirements
+#### 1. BookProvider
+* Wrap the entire application with `BookProvider`
+* Owns the global state and API logic
+* Uses `useEffect` to fetch books on initial mount
+
+#### 2. AddBookForm
+* A controlled form with inputs for: `title`, `author`
+* All fields are required (basic validation)
+* On submit: Calls addBook from context and clears the form on success
+
+#### 3. BookList
+* Displays all books from context
+* Uses a grid or card layout
+* Each book must render using a reusable `BookCard` component
+
+#### 4. BookCard
+* Displays: book `title`, `author`
+* Includes: Edit button and Delete button
+* Delete button calls `deleteBook` from context
+
+#### 5. EditBookForm
+* Shown when the user clicks Edit
+* Pre-fills inputs with the selected book’s current data
+* Uses controlled inputs
+* On submit: Calls updateBook from context and returns the user to the book list view
+
+### Side Effects and Data Flow
+* Use useEffect inside the BookProvider to fetch initial data.
+* All components must consume data and actions via useContext.
+* Do not perform API calls directly inside UI components.
+* Maintain one-way data flow:
+   * Context → Components
+   * Events → Context functions → State updates
 
 ### Example Context Structure
 ```typescript
@@ -53,10 +98,12 @@ const BookContext = createContext<BookContextType | null>(null);
 
 export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Implement CRUD functions and useEffect here
+  // TODO:
+  // - Fetch books with useEffect
+  // - Implement addBook, updateBook, deleteBook
 
   return (
     <BookContext.Provider value={{ books, addBook, updateBook, deleteBook, loading, error }}>
@@ -65,5 +112,16 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useBookContext = () => useContext(BookContext)!;
+export const useBookContext = () => {
+  const ctx = useContext(BookContext);
+  if (!ctx) {
+    throw new Error("useBookContext must be used inside BookProvider");
+  }
+  return ctx;
+};
+
 ```
+### Optional Requirements
+* Add a loading spinner during API calls
+* Display user-friendly error messages
+* Confirm before deleting a book
