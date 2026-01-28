@@ -2,12 +2,9 @@
 
 ### Book Library Management using React Context and CRUD Operations
 
-In this assignment, you will build a React application that manages a book library using **React Context** for global state management and **CRUD operations** for data persistence. This homework is designed to reinforce the concepts from **Lecture 10: Component Communication**, including parent–child communication, cross-layer communication, `useContext`, controlled forms, and side effects with `useEffect`.
-
----
-
+In this assignment, you will build a React application that manages a book library using **React Context** for global state management and **CRUD operations** for data persistence. 
+  
 ## Application Overview
-
 Create a React application that interacts with a REST API to manage a list of books. The application must support **Create, Read, Update, and Delete (CRUD)** operations and share state across components using React Context.
 
 You may use the following **mock API service** (or create your own account if needed):
