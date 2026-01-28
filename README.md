@@ -107,14 +107,6 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useBookContext = () => {
-  const ctx = useContext(BookContext);
-  if (!ctx) {
-    throw new Error("useBookContext must be used inside BookProvider");
-  }
-  return ctx;
-};
-
 ```
 ### Optional Requirements
 * Add a loading spinner during API calls
