@@ -83,7 +83,7 @@ interface Book {
 interface BookContextType {
   books: Book[];
   addBook: (book: Omit<Book, 'id'>) => Promise<Book>;
-  updateBook: (id: string, updatedBook: Omit<Book, 'id'>) => Promise<Book>;
+  updateBook: (id: string, updatedBook: Book) => Promise<Book>;
   deleteBook: (id: string) => Promise<Book>;
   loading: boolean;
   error: string | null;
