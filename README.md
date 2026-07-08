@@ -38,7 +38,6 @@ The context should act as the single source of truth for book data and business 
 #### 1. BookProvider
 * Wrap the entire application with `BookProvider`
 * Owns the global state and API logic
-* Uses `useEffect` to fetch books on initial mount
 
 #### 2. AddBookForm
 * A controlled form with inputs for: `title`, `author`
@@ -47,7 +46,6 @@ The context should act as the single source of truth for book data and business 
 
 #### 3. BookList
 * Displays all books from context
-* Uses a grid or card layout
 * Each book must render using a reusable `BookCard` component
 
 #### 4. BookCard
@@ -62,7 +60,7 @@ The context should act as the single source of truth for book data and business 
 * On submit: Calls updateBook from context and returns the user to the book list view
 
 ### Side Effects and Data Flow
-* Use useEffect inside the BookProvider to fetch initial data.
+* Fetch initial data for BookProvider.
 * All components must consume data and actions via useContext.
 * Do not perform API calls directly inside UI components.
 * Maintain one-way data flow:
@@ -93,12 +91,11 @@ const BookContext = createContext<BookContextType | null>(null);
 
 export const BookProvider = ({ children }:{ children: React.ReactNode }) => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   // TODO:
   // - Fetch books
   // - Implement addBook, updateBook, deleteBook
+  // - Implement loading and error states
 
   return (
     <BookContext.Provider value={{ books, addBook, updateBook, deleteBook, loading, error }}>
