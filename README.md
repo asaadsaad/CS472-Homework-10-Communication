@@ -91,13 +91,13 @@ interface BookContextType {
 
 const BookContext = createContext<BookContextType | null>(null);
 
-export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const BookProvider = ({ children }:{ children: React.ReactNode }) => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   // TODO:
-  // - Fetch books with useEffect
+  // - Fetch books
   // - Implement addBook, updateBook, deleteBook
 
   return (
